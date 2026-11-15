@@ -1,0 +1,10 @@
+{
+  "uuid": "ded-moroz-sleigh@local",
+  "name": "Ded Moroz Sleigh",
+  "description": "Ded Moroz (Grandfather Frost) rides a reindeer sleigh along the bottom of the screen every few hours and kicks up the snow. / Дед Мороз на санях с тройкой оленей время от времени проезжает по низу экрана и взметает снег.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.ded-moroz-sleigh",
+  "version": 1
+}

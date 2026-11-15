@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.ded-moroz-sleigh.visibility">
+    <value nick="above" value="0"/>
+    <value nick="desktop" value="1"/>
+    <value nick="below" value="2"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.ded-moroz-sleigh.direction">
+    <value nick="random" value="0"/>
+    <value nick="ltr" value="1"/>
+    <value nick="rtl" value="2"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.ded-moroz-sleigh" path="/org/gnome/shell/extensions/ded-moroz-sleigh/">
+    <key name="enabled" type="b"><default>true</default><summary>Ride automatically on a timer</summary></key>
+    <key name="visibility" enum="org.gnome.shell.extensions.ded-moroz-sleigh.visibility"><default>'above'</default><summary>Where to show: above (over windows), desktop (only on an empty desktop), below (under windows)</summary></key>
+    <key name="show-indicator" type="b"><default>true</default><summary>Show the top bar icon</summary></key>
+    <key name="interval-minutes" type="i"><range min="1" max="1440"/><default>180</default><summary>How often it rides, minutes</summary></key>
+    <key name="speed" type="i"><range min="60" max="800"/><default>220</default><summary>Speed, px/s</summary></key>
+    <key name="scale" type="d"><range min="0.5" max="2.5"/><default>1.0</default><summary>Size</summary></key>
+    <key name="direction" enum="org.gnome.shell.extensions.ded-moroz-sleigh.direction"><default>'random'</default><summary>Direction</summary></key>
+    <key name="hide-in-fullscreen" type="b"><default>true</default><summary>Do not ride over fullscreen windows</summary></key>
+    <key name="last-run" type="x"><default>0</default><summary>Time of the last ride (unix, internal)</summary></key>
+    <key name="run-request" type="x"><default>0</default><summary>&quot;Ride now&quot; request (internal)</summary></key>
+    <key name="run-key" type="as"><default><![CDATA[['<Super><Alt>d']]]></default><summary>Hotkey &quot;ride now&quot;</summary></key>
+    <key name="language" type="s">
+      <choices>
+        <choice value="auto"/>
+        <choice value="ru"/>
+        <choice value="en"/>
+      </choices>
+      <default>'auto'</default>
+      <summary>Interface language: auto (as in the system), ru, en</summary>
+    </key>
+  </schema>
+</schemalist>

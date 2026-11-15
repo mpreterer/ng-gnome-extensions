@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.snowball-fight.visibility">
+    <value nick="above" value="0"/>
+    <value nick="desktop" value="1"/>
+    <value nick="below" value="2"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.snowball-fight.corner">
+    <value nick="bottom-right" value="0"/>
+    <value nick="bottom-left" value="1"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.snowball-fight" path="/org/gnome/shell/extensions/snowball-fight/">
+    <key name="enabled" type="b"><default>true</default><summary>Snowballs enabled</summary></key>
+    <key name="visibility" enum="org.gnome.shell.extensions.snowball-fight.visibility"><default>'desktop'</default><summary>Where to show: above (over windows), desktop (only on an empty desktop), below (under windows)</summary></key>
+    <key name="show-indicator" type="b"><default>true</default><summary>Show the top bar icon</summary></key>
+    <key name="pile-size" type="i"><range min="1" max="15"/><default>6</default><summary>Snowballs in the pile</summary></key>
+    <key name="ball-size" type="i"><range min="16" max="80"/><default>30</default><summary>Snowball diameter, px</summary></key>
+    <key name="gravity" type="i"><range min="0" max="3000"/><default>900</default><summary>Gravity, px/s²</summary></key>
+    <key name="throw-power" type="d"><range min="0.3" max="3.0"/><default>1.0</default><summary>Throw power</summary></key>
+    <key name="splat-lifetime" type="i"><range min="3" max="600"/><default>40</default><summary>How long a splat stays on the wall, seconds</summary></key>
+    <key name="corner" enum="org.gnome.shell.extensions.snowball-fight.corner"><default>'bottom-right'</default><summary>Where the pile lies</summary></key>
+    <key name="toggle-key" type="as"><default><![CDATA[['<Super><Alt>b']]]></default><summary>Hotkey to turn snowballs on/off</summary></key>
+    <key name="language" type="s">
+      <choices>
+        <choice value="auto"/>
+        <choice value="ru"/>
+        <choice value="en"/>
+      </choices>
+      <default>'auto'</default>
+      <summary>Interface language: auto (as in the system), ru, en</summary>
+    </key>
+  </schema>
+</schemalist>

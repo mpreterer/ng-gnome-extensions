@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.garland-lights.visibility">
+    <value nick="above" value="0"/>
+    <value nick="desktop" value="1"/>
+    <value nick="below" value="2"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.garland-lights.mode">
+    <value nick="twinkle" value="0"/>
+    <value nick="chase" value="1"/>
+    <value nick="alternate" value="2"/>
+    <value nick="steady" value="3"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.garland-lights.palette">
+    <value nick="multicolor" value="0"/>
+    <value nick="warm" value="1"/>
+    <value nick="cold" value="2"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.garland-lights" path="/org/gnome/shell/extensions/garland-lights/">
+    <key name="enabled" type="b"><default>true</default><summary>Garland enabled</summary></key>
+    <key name="visibility" enum="org.gnome.shell.extensions.garland-lights.visibility"><default>'above'</default><summary>Where to show: above (over windows), desktop (only on an empty desktop), below (under windows)</summary></key>
+    <key name="show-indicator" type="b"><default>true</default><summary>Show the top bar icon</summary></key>
+    <key name="wire-color" type="s"><default>'#14381a'</default><summary>Wire color (#rrggbb)</summary></key>
+    <key name="lights-on" type="b"><default>true</default><summary>Lights are on (also toggled by the pull cord)</summary></key>
+    <key name="show-pull" type="b"><default>true</default><summary>Show the pull-cord switch on the right</summary></key>
+    <key name="bulb-count" type="i"><range min="5" max="150"/><default>36</default><summary>Number of bulbs</summary></key>
+    <key name="sag" type="i"><range min="10" max="400"/><default>100</default><summary>Sag in the middle, px</summary></key>
+    <key name="bulb-scale" type="d"><range min="0.5" max="2.5"/><default>1.0</default><summary>Bulb size</summary></key>
+    <key name="mode" enum="org.gnome.shell.extensions.garland-lights.mode"><default>'twinkle'</default><summary>Blink mode</summary></key>
+    <key name="palette" enum="org.gnome.shell.extensions.garland-lights.palette"><default>'multicolor'</default><summary>Bulb colors</summary></key>
+    <key name="speed" type="d"><range min="0.2" max="4.0"/><default>1.0</default><summary>Blink speed</summary></key>
+    <key name="hide-in-fullscreen" type="b"><default>true</default><summary>Hide when a window is fullscreen</summary></key>
+    <key name="toggle-key" type="as"><default><![CDATA[['<Super><Alt>g']]]></default><summary>Hotkey to turn the garland on/off</summary></key>
+    <key name="language" type="s">
+      <choices>
+        <choice value="auto"/>
+        <choice value="ru"/>
+        <choice value="en"/>
+      </choices>
+      <default>'auto'</default>
+      <summary>Interface language: auto (as in the system), ru, en</summary>
+    </key>
+  </schema>
+</schemalist>

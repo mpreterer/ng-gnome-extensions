@@ -1,0 +1,10 @@
+{
+  "uuid": "garland-lights@local",
+  "name": "Garland Lights",
+  "description": "A New Year garland with blinking bulbs along the top of the screen; pull the cord on the right to turn the lights on or off. / Новогодняя гирлянда с мигающими лампочками вдоль верха экрана; потяните шнурок справа, чтобы включить или выключить свет.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.garland-lights",
+  "version": 1
+}

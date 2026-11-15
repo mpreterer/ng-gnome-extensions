@@ -1,0 +1,10 @@
+{
+  "uuid": "snowfall-physics@local",
+  "name": "Snowfall Physics",
+  "description": "Falling snow that settles on window title bars and the bottom of the screen and falls off when you shake, minimize or close a window. / Падающий снег: оседает на заголовках окон и внизу экрана, осыпается при тряске, сворачивании и закрытии окна.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.snowfall-physics",
+  "version": 1
+}

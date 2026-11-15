@@ -1,0 +1,10 @@
+{
+  "uuid": "snowball-fight@local",
+  "name": "Snowball Fight",
+  "description": "A pile of snowballs on the desktop: grab one with the mouse and throw it; it splats against the screen edges. / Горка снежков на рабочем столе: хватайте мышью и бросайте, снежок разбивается о края экрана.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.snowball-fight",
+  "version": 1
+}
