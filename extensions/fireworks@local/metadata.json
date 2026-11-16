@@ -1,0 +1,10 @@
+{
+  "uuid": "fireworks@local",
+  "name": "Fireworks",
+  "description": "Place rockets, firework cakes and fountains on the desktop and light them with the mouse like a lighter. / Ставьте на рабочий стол ракеты, батареи салютов и фонтаны и поджигайте их мышкой, как зажигалкой.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.fireworks",
+  "version": 1
+}

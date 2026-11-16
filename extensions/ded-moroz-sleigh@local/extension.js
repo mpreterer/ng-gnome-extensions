@@ -36,6 +36,7 @@ const DEER = [218, 292, 366];
 const HAND = [131, 66];      // рукавица с вожжами
 const STAFF_TOP = [27, 9];   // кристалл на посохе (стоит за мешком)
 const SHOULDER = [90, 50];   // плечо машущей руки
+const NOSE = 410;            // передний край упряжки на рисунке
 
 function obstacles() {
     if (!globalThis.__festiveObstacles)
@@ -701,6 +702,8 @@ class Sleigh {
         });
         staffGlow.set_position(STAFF_TOP[0] * s - gs / 2, STAFF_TOP[1] * s - gs / 2);
         staffGlow.set_pivot_point(0.5, 0.5);
+        // переворот саней — вокруг середины саней
+        sled.set_pivot_point(0.2, 0.48);
         sled.add_child(arm);
         sled.add_child(body);
         sled.add_child(staffGlow);
@@ -740,7 +743,9 @@ class Sleigh {
             endX: sign > 0 ? mon.x + mon.width + 20 : mon.x - W - 20,
             ground: mon.y + mon.height,
             t: 0, frame: 0, manual, done: false,
+            crash: null,
         };
+        this._run.baseSpeed = this._run.speed;
         // хитбокс для снега: нижняя часть упряжки
         this._obstacle = { x: 0, y: 0, w: W, h: H * 0.45, vx: this._run.speed };
         obstacles().add(this._obstacle);
@@ -823,16 +828,30 @@ class Sleigh {
         const blocked = r.manual ? this._blocked(true)
             : this._blocked() && this._fl.mode !== 'desktop';
 
-        // галоп: 4 кадра
-        const frame = Math.floor(r.t / (GALLOP / 4)) % 4;
-        if (frame !== r.frame) {
-            r.frame = frame;
-            r.deer.content = r.deerFrames[frame];
+        // впереди снежный шар или снеговик (из расширения «Снег») — врезаемся
+        if (!r.crash && !r.done && !blocked && globalThis.__festiveGround?.hitBall) {
+            const [fx] = this._toScreen(r, NOSE, GROUND);
+            if (globalThis.__festiveGround.hitBall(fx, fx + r.sign * 14 * r.s, r.sign))
+                this._startCrash(r, fx);
         }
-        // сани подпрыгивают на неровностях
-        r.sled.translation_y = -Math.abs(Math.sin(r.t * 9.5)) * 1.6 * r.s - Math.max(0, Math.sin(r.t * 2.3)) * 1.2 * r.s;
-        // Дед Мороз машет рукой
-        r.arm.rotation_angle_z = -112 + 26 * Math.sin(r.t * 7.5);
+        const c = r.crash;
+        if (c)
+            this._crashStep(r, c, dt);
+
+        // галоп: 4 кадра (во время аварии олени стоят)
+        if (!c || c.t > 2.6) {
+            const frame = Math.floor(r.t / (GALLOP / 4)) % 4;
+            if (frame !== r.frame) {
+                r.frame = frame;
+                r.deer.content = r.deerFrames[frame];
+            }
+        }
+        if (!c) {
+            // сани подпрыгивают на неровностях
+            r.sled.translation_y = -Math.abs(Math.sin(r.t * 9.5)) * 1.6 * r.s - Math.max(0, Math.sin(r.t * 2.3)) * 1.2 * r.s;
+            // Дед Мороз машет рукой
+            r.arm.rotation_angle_z = -112 + 26 * Math.sin(r.t * 7.5);
+        }
         // кристалл посоха пульсирует
         const pulse = Math.pow(Math.sin(r.t * 2.6), 2);
         r.staffGlow.opacity = Math.round(110 + 145 * pulse);
@@ -846,7 +865,7 @@ class Sleigh {
 
         r.team.set_position(Math.round(r.x), Math.round(r.y));
         r.team.visible = !blocked && !r.done;
-        this._emitSpray(r, dt, !blocked && !r.done);
+        this._emitSpray(r, dt, !blocked && !r.done && (!c || c.t > 2.6));
         this._updateSpray(r, dt);
 
         const o = this._obstacle;   // после выезда за край его уже нет
@@ -873,6 +892,72 @@ class Sleigh {
             return false;
         }
         return true;
+    }
+
+    /* Врезались в снежный шар: упряжка встаёт как вкопанная, шар разлетается,
+     * сани подлетают и переворачиваются вверх полозьями, Дед Мороз
+     * размахивает руками; потом сани кувыркаются обратно и упряжка едет дальше. */
+    _startCrash(r, fx) {
+        r.crash = { t: 0 };
+        r.speed = 0;
+        // большой снежный «бум» из-под копыт
+        for (let k = 0; k < 70; k++) {
+            const size = (3 + Math.random() * 6) * r.s;
+            const actor = new Clutter.Actor({ content: r.puffTex, width: size, height: size, reactive: false });
+            r.spray.add_child(actor);
+            r.puffs.push({
+                actor, size,
+                x: fx + (Math.random() - 0.5) * 60 * r.s,
+                y: r.ground - Math.random() * 30 * r.s,
+                vx: r.sign * (Math.random() * 260 - 60) * r.s,
+                vy: -(150 + Math.random() * 420) * r.s,
+                age: 0, life: 0.7 + Math.random() * 0.9,
+            });
+        }
+        // пока стоим, снег под санями не разбрасываем
+        if (this._obstacle)
+            obstacles().delete(this._obstacle);
+    }
+
+    _crashStep(r, c, dt) {
+        c.t += dt;
+        const t = c.t, s = r.s;
+        const easeOut = p => 1 - Math.pow(1 - p, 3);
+        const easeInOut = p => (p < 0.5 ? 4 * p * p * p : 1 - Math.pow(-2 * p + 2, 3) / 2);
+        let rot, hop;
+        if (t < 0.6) {
+            const p = t / 0.6;
+            rot = 180 * easeOut(p);
+            hop = -Math.sin(Math.PI * p) * 60 * s;
+        } else if (t < 2.0) {
+            // лежат вверх полозьями и покачиваются
+            const u = t - 0.6;
+            rot = 180 + 7 * Math.sin(u * 13) * Math.exp(-u * 2.2);
+            hop = -Math.abs(Math.sin(u * 13)) * 4 * s * Math.exp(-u * 3);
+        } else if (t < 2.6) {
+            const p = (t - 2.0) / 0.6;
+            rot = 180 + 180 * easeInOut(p);
+            hop = -Math.sin(Math.PI * p) * 48 * s;
+        } else {
+            rot = 0;
+            hop = 0;
+            // разгон
+            r.speed = r.baseSpeed * Math.min(1, (t - 2.6) / 0.7);
+        }
+        r.sled.rotation_angle_z = rot % 360;
+        r.sled.translation_y = hop;
+        // руки: в воздухе и вверх ногами Дед Мороз отчаянно машет
+        r.arm.rotation_angle_z = t < 2.6 ? -112 + 70 * Math.sin(t * 22) : -112 + 26 * Math.sin(r.t * 7.5);
+        // олени от удара подскакивают и отшатываются
+        r.deer.translation_y = t < 0.4 ? -Math.sin(Math.PI * t / 0.4) * 12 * s : 0;
+        r.deer.translation_x = t < 0.4 ? -Math.sin(Math.PI * t / 0.4) * 8 * s : 0;
+        if (t >= 3.3) {
+            r.crash = null;
+            r.speed = r.baseSpeed;
+            r.sled.rotation_angle_z = 0;
+            if (this._obstacle)
+                obstacles().add(this._obstacle);
+        }
     }
 
     _finish() {

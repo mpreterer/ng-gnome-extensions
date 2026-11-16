@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schemalist>
+  <enum id="org.gnome.shell.extensions.christmas-tree.visibility">
+    <value nick="above" value="0"/>
+    <value nick="desktop" value="1"/>
+    <value nick="below" value="2"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.christmas-tree.position">
+    <value nick="right" value="0"/>
+    <value nick="center" value="1"/>
+    <value nick="left" value="2"/>
+  </enum>
+  <enum id="org.gnome.shell.extensions.christmas-tree.tree-snow">
+    <value nick="snowfall" value="0"/>
+    <value nick="always" value="1"/>
+    <value nick="never" value="2"/>
+  </enum>
+  <schema id="org.gnome.shell.extensions.christmas-tree" path="/org/gnome/shell/extensions/christmas-tree/">
+    <key name="enabled" type="b"><default>true</default><summary>Christmas tree shown</summary></key>
+    <key name="visibility" enum="org.gnome.shell.extensions.christmas-tree.visibility"><default>'below'</default><summary>Where to show: above (over windows), desktop (only on an empty desktop), below (under windows)</summary></key>
+    <key name="show-indicator" type="b"><default>true</default><summary>Show the top bar icon</summary></key>
+    <key name="position" enum="org.gnome.shell.extensions.christmas-tree.position"><default>'left'</default><summary>Where the tree stands on the primary monitor</summary></key>
+    <key name="show-box" type="b"><default>true</default><summary>Show the toy box next to the tree</summary></key>
+    <key name="tree-size" type="d"><range min="0.5" max="1.6"/><default>1.0</default><summary>Tree size (1.0 is about 430 px tall)</summary></key>
+    <key name="tree-snow" enum="org.gnome.shell.extensions.christmas-tree.tree-snow"><default>'snowfall'</default><summary>Snow on the branches: snowfall (piles up while the Snowfall extension snows), always, never</summary></key>
+    <key name="snow-amount" type="d"><range min="0" max="1"/><default>0.0</default><summary>Current snow on the branches (internal, saved)</summary></key>
+    <key name="decor" type="s"><default>'[]'</default><summary>Toys on the tree (JSON, internal, saved)</summary></key>
+    <key name="language" type="s">
+      <choices>
+        <choice value="auto"/>
+        <choice value="ru"/>
+        <choice value="en"/>
+      </choices>
+      <default>'auto'</default>
+      <summary>Interface language: auto (as in the system), ru, en</summary>
+    </key>
+  </schema>
+</schemalist>

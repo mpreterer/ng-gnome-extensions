@@ -16,8 +16,8 @@
       <summary>Number of falling snowflakes (recommended 80-150)</summary>
     </key>
     <key name="max-settled" type="i">
-      <range min="0" max="3000"/>
-      <default>800</default>
+      <range min="0" max="20000"/>
+      <default>6000</default>
       <summary>Maximum number of settled snowflakes</summary>
     </key>
     <key name="fps" type="i">
@@ -47,6 +47,20 @@
       <range min="1" max="10"/>
       <default>5</default>
       <summary>How easily snow falls off a shaken window (1-10)</summary>
+    </key>
+    <key name="drift-height" type="i">
+      <range min="8" max="80"/>
+      <default>36</default>
+      <summary>Maximum height of snow drifts on windows, px</summary>
+    </key>
+    <key name="drift-accumulation" type="i">
+      <range min="1" max="10"/>
+      <default>5</default>
+      <summary>How fast drifts grow (1-10): how much height one settled flake adds</summary>
+    </key>
+    <key name="snowballs" type="b">
+      <default>true</default>
+      <summary>Roll snowballs with the mouse and stack them into snowmen</summary>
     </key>
     <key name="visibility" enum="org.gnome.shell.extensions.snowfall-physics.visibility">
       <default>'above'</default>

@@ -1,0 +1,10 @@
+{
+  "uuid": "christmas-tree@local",
+  "name": "Christmas Tree",
+  "description": "A Christmas tree on the desktop with a box of toys: drag toys onto the tree with the mouse, put the star on top. The decorations and the snow on the branches are saved. / Ёлка на рабочем столе и ящик игрушек: вешайте игрушки мышью, ставьте звезду на макушку. Наряд и снег на ветках сохраняются.",
+  "shell-version": [
+    "42"
+  ],
+  "settings-schema": "org.gnome.shell.extensions.christmas-tree",
+  "version": 1
+}

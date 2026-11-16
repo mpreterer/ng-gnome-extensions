@@ -3,7 +3,7 @@
 # Usage / запуск:  ./uninstall.sh
 set -euo pipefail
 
-UUIDS=(snowfall-physics@local garland-lights@local ded-moroz-sleigh@local snowball-fight@local)
+UUIDS=(snowfall-physics@local garland-lights@local ded-moroz-sleigh@local snowball-fight@local fireworks@local christmas-tree@local)
 DEST="$HOME/.local/share/gnome-shell/extensions"
 
 ru() { [[ "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" == ru* || "${LANGUAGE:-}" == ru* ]]; }

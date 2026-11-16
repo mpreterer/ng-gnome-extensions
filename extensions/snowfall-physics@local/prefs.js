@@ -72,10 +72,20 @@ function fillPreferencesWindow(window) {
     const pile = new Adw.PreferencesGroup({ title: T('Сугробы', 'Snow piles') });
     addSwitch(pile, settings, 'settle-on-windows', T('Оседать на окнах', 'Settle on windows'));
     addSwitch(pile, settings, 'settle-on-ground', T('Оседать внизу экрана', 'Settle at the bottom of the screen'));
-    addSpin(pile, settings, 'max-settled', T('Максимум осевших снежинок', 'Maximum settled snowflakes'), T('Нагрузка небольшая (сугробы рисуются картинкой). 0 — снег не оседает', 'Low load (piles are drawn as a single image). 0 — snow does not settle'), 0, 3000, 100);
+    addSpin(pile, settings, 'drift-height', T('Высота сугробов на окнах, px', 'Height of drifts on windows, px'), T('Плотная снежная шапка на верхней кромке окна', 'A thick snow cap on the top edge of the window'), 8, 80, 2);
+    addSpin(pile, settings, 'drift-accumulation', T('Как быстро растут сугробы', 'How fast drifts grow'), T('1 — тонкий слой, 10 — быстро наметает толстые сугробы', '1 — a thin layer, 10 — thick drifts pile up fast'), 1, 10, 1);
+    addSpin(pile, settings, 'max-settled', T('Максимум осевших снежинок', 'Maximum settled snowflakes'), T('Нагрузка небольшая (сугробы рисуются картинкой). 0 — снег не оседает', 'Low load (piles are drawn as a single image). 0 — snow does not settle'), 0, 20000, 500);
     addSpin(pile, settings, 'melt-time', T('Время таяния, секунд', 'Melting time, seconds'), T('Среднее время жизни осевшей снежинки', 'Average lifetime of a settled snowflake'), 10, 3600, 10);
     addSpin(pile, settings, 'shake-sensitivity', T('Чувствительность к тряске', 'Shake sensitivity'), T('1 — снег держится крепко, 10 — слетает от лёгкого движения', '1 — snow holds tight, 10 — falls off at the slightest move'), 1, 10, 1);
     page.add(pile);
+
+    const balls = new Adw.PreferencesGroup({
+        title: T('Снежки и снеговики', 'Snowballs and snowmen'),
+        description: T('Проведите курсором вдоль сугроба (без нажатия) — снег скатается в шар. Шар можно взять мышью и положить на другой: из 2–5 шаров получится снеговик в шапке и шарфе.',
+            'Move the pointer along a drift (no click) and the snow rolls into a ball. Grab a ball with the mouse and drop it onto another: 2–5 balls make a snowman with a hat and a scarf.'),
+    });
+    addSwitch(balls, settings, 'snowballs', T('Лепить снежки мышкой', 'Roll snowballs with the mouse'));
+    page.add(balls);
 
     const misc = new Adw.PreferencesGroup({ title: T('Прочее', 'Other') });
     addSpin(misc, settings, 'fps', T('⚡ Кадров в секунду', '⚡ Frames per second'), T('Сильно влияет на нагрузку. Рекомендуется 30; 60 — вдвое тяжелее', 'Strongly affects load. Recommended 30; 60 is twice as heavy'), 10, 60, 5);

@@ -4,7 +4,7 @@
 set -euo pipefail
 cd "$(dirname "$0")"
 
-UUIDS=(snowfall-physics@local garland-lights@local ded-moroz-sleigh@local snowball-fight@local)
+UUIDS=(snowfall-physics@local garland-lights@local ded-moroz-sleigh@local snowball-fight@local fireworks@local christmas-tree@local)
 DEST="$HOME/.local/share/gnome-shell/extensions"
 
 ru() { [[ "${LC_ALL:-${LC_MESSAGES:-${LANG:-}}}" == ru* || "${LANGUAGE:-}" == ru* ]]; }
@@ -55,5 +55,5 @@ else
     say "Готово! Осталось выйти из системы и войти снова (в Wayland Shell перезапускается только так)." \
         "Done! Now log out and log back in (on Wayland this is the only way to restart the Shell)."
 fi
-say "\nНастройки: значки снежинки, гирлянды, саней и снежка на верхней панели → «Настройки…»." \
-    "\nSettings: the snowflake, garland, sleigh and snowball icons on the top bar → “Settings…”."
+say "\nНастройки: значки на верхней панели (снежинка, гирлянда, сани, снежок, салют, ёлка) → «Настройки…»." \
+    "\nSettings: the icons on the top bar (snowflake, garland, sleigh, snowball, firework, tree) → “Settings…”."
